@@ -20,6 +20,7 @@ class CmsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_cms_table')
-            ->hasCommand(CmsCommand::class);
+            ->hasCommand(CmsCommand::class)
+            ->hasRoutes('web');
     }
 }
