@@ -13,7 +13,7 @@ class MetaTag extends Model implements HasMedia
 
     /**
      * Fillable properties.
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'title',

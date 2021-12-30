@@ -18,6 +18,7 @@
     "require": {
         "php": "^8.0",
         "illuminate/contracts": "^8.73",
+        "parsedown/laravel": "^1.2",
         "spatie/laravel-medialibrary": "^9.11",
         "spatie/laravel-package-tools": "^1.9.2",
         "spatie/laravel-sitemap": "^6.0",

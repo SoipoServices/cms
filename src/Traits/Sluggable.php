@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 trait Sluggable
 {
 
-
     /**
      * @var array
      */

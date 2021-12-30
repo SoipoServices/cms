@@ -1,6 +1,6 @@
 <?php
 
-namespace SoipoServices\View\Components;
+namespace SoipoServices\Cms\View\Components;
 
 class MainMenu extends AbstractMenu
 {

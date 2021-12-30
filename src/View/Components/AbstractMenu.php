@@ -1,8 +1,8 @@
 <?php
 
-namespace SoipoServices\View\Components;
+namespace SoipoServices\Cms\View\Components;
 
-use App\Models\Menu as AppMenu;
+use SoipoServices\Cms\Models\Menu as AppMenu;
 use Illuminate\View\Component;
 
 abstract class AbstractMenu extends Component

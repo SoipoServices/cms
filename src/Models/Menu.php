@@ -9,7 +9,7 @@ class Menu extends Model
 {
     /**
      * Fillable properties.
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'name',
@@ -18,7 +18,7 @@ class Menu extends Model
 
     /**
      * The attributes that should be cast to native types.
-     * @var array
+     * @var array<string>
      */
     protected $casts = [
         'name' => 'string',
@@ -27,7 +27,7 @@ class Menu extends Model
 
     /**
      * The attributes that should be mutated to dates.
-     * @var array
+     * @var array<string>
      */
     protected $dates = [
         'created_at',

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use SoipoServices\Cms\Traits\Publishable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -22,11 +23,11 @@ use Spatie\Tags\HasTags;
 
 class Page extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable, Publishable;
 
     /**
      * Fillable properties.
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'user_id',
@@ -39,13 +40,13 @@ class Page extends Model implements HasMedia
 
     /**
      * Appended fields.
-     * @var array
+     * @var array<string>
      */
     protected $appends = ['published'];
 
     /**
      * The attributes that should be cast to native types.
-     * @var array
+     * @var array<string>
      */
     protected $casts = [
         'scheduled_for' => 'datetime:Y-m-d H:i:s',
@@ -53,7 +54,7 @@ class Page extends Model implements HasMedia
 
     /**
      * The attributes that should be mutated to dates.
-     * @var array
+     * @var array<string>
      */
     protected $dates = [
         'scheduled_for',
@@ -61,24 +62,6 @@ class Page extends Model implements HasMedia
         'created_at',
         'updated_at',
     ];
-
-    /**
-     * Published mutator.
-     * @return bool
-     */
-    public function getPublishedAttribute()
-    {
-        return now() > $this->scheduled_for;
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
 
     public function registerMediaConversions(Media $media = null) : void
     {

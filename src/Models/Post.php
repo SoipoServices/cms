@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use SoipoServices\Cms\Traits\MetaTagable;
+use SoipoServices\Cms\Traits\Publishable;
 use SoipoServices\Cms\Traits\Sluggable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -17,11 +18,11 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable, Publishable;
 
     /**
      * Fillable properties.
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'user_id',
@@ -36,7 +37,7 @@ class Post extends Model implements HasMedia
 
     /**
      * Appended fields.
-     * @var array
+     * @var array<string>
      */
     protected $appends = ['published'];
 
@@ -66,15 +67,7 @@ class Post extends Model implements HasMedia
      */
     public function getPublishedAttribute()
     {
-        return now() > $this->scheduled_for;
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
+        return now() >  $this->attributes["scheduled_for"];
     }
 
     /**
