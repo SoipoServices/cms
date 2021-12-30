@@ -1,6 +1,6 @@
 <?php
 
-namespace SoipoServices\Traits;
+namespace SoipoServices\Cms\Traits;
 
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

@@ -1,6 +1,6 @@
 <?php
 
-namespace SoipoServices\Traits;
+namespace SoipoServices\Cms\Traits;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;

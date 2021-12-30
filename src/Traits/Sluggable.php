@@ -1,6 +1,6 @@
 <?php
 
-namespace SoipoServices\Traits;
+namespace SoipoServices\Cms\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -25,8 +25,7 @@ trait Sluggable
         foreach (static::$sluggableEvents as $event) {
             static::{$event}(function ($model) use ($event) {
                 $column = static::getSluggableField($model);
-
-                $model->slug = static::generateUniqueSlug(
+                $model->attributes['slug'] = static::generateUniqueSlug(
                     $model->{$column},
                     $event === 'updating'
                         ? $model->id
@@ -65,7 +64,7 @@ trait Sluggable
         if ($latestSlug) {
             $pieces = explode('-', $latestSlug);
 
-            $slug .= '-'.(intval(end($pieces)) + 1);
+            $slug .= '-' . (intval(end($pieces)) + 1);
         }
 
         return $slug;

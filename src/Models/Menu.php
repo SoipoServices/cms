@@ -1,6 +1,6 @@
 <?php
 
-namespace SoipoServices\Models;
+namespace SoipoServices\Cms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

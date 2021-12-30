@@ -1,10 +1,10 @@
 <?php
 
-namespace SoipoServices\Models;
+namespace SoipoServices\Cms\Models;
 
-use App\Traits\MetaTagable;
-use App\Traits\Parsable;
-use App\Traits\Sluggable;
+use SoipoServices\Cms\Traits\MetaTagable;
+use SoipoServices\Cms\Traits\Parsable;
+use SoipoServices\Cms\Traits\Sluggable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,7 +22,7 @@ use Spatie\Tags\HasTags;
 
 class Page extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable;
 
     /**
      * Fillable properties.
@@ -34,6 +34,7 @@ class Page extends Model implements HasMedia
         'summary',
         'body',
         'scheduled_for',
+        'slug'
     ];
 
     /**

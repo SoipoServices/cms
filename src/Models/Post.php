@@ -1,15 +1,15 @@
 <?php
 
-namespace SoipoServices\Models;
+namespace SoipoServices\Cms\Models;
 
-use App\Traits\MetaTagable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Laravel\Nova\Fields\Searchable;
+use SoipoServices\Cms\Traits\MetaTagable;
+use SoipoServices\Cms\Traits\Sluggable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -17,7 +17,7 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, Searchable, HasFactory, MetaTagable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable;
 
     /**
      * Fillable properties.
@@ -31,6 +31,7 @@ class Post extends Model implements HasMedia
         'body',
         'scheduled_for',
         'featured',
+        'slug'
     ];
 
     /**
