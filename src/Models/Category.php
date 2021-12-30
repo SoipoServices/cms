@@ -39,9 +39,8 @@ class Category extends Model
     public function descriptionAsHtml()
     {
         $value = $this->attributes['description'];
-        if($value){
+        if ($value) {
             return $this->fieldAsHtml($value);
         }
-
     }
 }

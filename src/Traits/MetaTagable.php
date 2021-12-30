@@ -5,22 +5,23 @@ namespace SoipoServices\Cms\Traits;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+
+/**
+ * @property-read \Illuminate\Database\Eloquent\Collection<\Spatie\Tags\Tag> $tags
+ */
 trait MetaTagable{
 
-    /**
-     * @property-read \Illuminate\Database\Eloquent\Collection<\SoipoServices\Cms\Models\TagTranslation> $tags
-     */
     public function getMetaTagsAttribute()
     {
         $tags = [];
         $tags[] = config('soiposervices.meta_tag_keyword');
-        // if ($this->tags->count() == 0) {
-        //     $tags[] = config('soiposervices.meta_tag_keyword');
-        // }else{
-        //     foreach ($this->tags as $tag) {
-        //         $tags[] = $tag->attributes["slug"];
-        //     }
-        // }
+        if ($this->tags->count() == 0) {
+            $tags[] = config('soiposervices.meta_tag_keyword');
+        }else{
+            foreach ($this->tags as $tag) {
+                $tags[] = $tag->attributes["slug"];
+            }
+        }
         $media = Media::where('model_id', $this->id)->first();
         if(!isset($media)){
             $image = config('soiposervices.meta_tag_image');
