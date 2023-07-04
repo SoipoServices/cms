@@ -36,6 +36,6 @@ class CreateCmsPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cms_posts');
+        Schema::dropIfExists('posts');
     }
 }

@@ -29,6 +29,6 @@ class CreateCmsMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cms_menus');
+        Schema::dropIfExists('menus');
     }
 }
