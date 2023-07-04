@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenuPagePivotTable extends Migration
+class CreateCmsMenusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateMenuPagePivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('menu_page', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('menu_id');
-            $table->unsignedInteger('page_id');
+        Schema::create('menus', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->string('slug')->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateMenuPagePivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_page');
+        Schema::dropIfExists('cms_menus');
     }
 }

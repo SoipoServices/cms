@@ -2,19 +2,16 @@
 
 namespace SoipoServices\Cms\Models;
 
-use SoipoServices\Cms\Traits\MetaTagable;
-use SoipoServices\Cms\Traits\Parsable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use SoipoServices\Cms\Constants\Resources;
+use SoipoServices\Cms\Traits\GetClass;
 use SoipoServices\Cms\Traits\Sluggable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 use SoipoServices\Cms\Traits\Publishable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -23,14 +20,14 @@ use Spatie\Tags\HasTags;
 
 class Page extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable, Publishable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass;
 
     /**
      * Fillable properties.
      * @var array<string>
      */
     protected $fillable = [
-        'user_id',
+        'author_id',
         'title',
         'summary',
         'body',
@@ -49,31 +46,20 @@ class Page extends Model implements HasMedia
      * @var array<string>
      */
     protected $casts = [
-        'scheduled_for' => 'datetime:Y-m-d H:i:s',
+        'scheduled_for' => 'datetime',
     ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     * @var array<string>
-     */
-    protected $dates = [
-        'scheduled_for',
-        'deleted_at',
-        'created_at',
-        'updated_at',
-    ];
-
-    public function registerMediaConversions(Media $media = null) : void
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(config('blog.image_thumb_settings.width'))
-            ->height(config('blog.image_thumb_settings.height'))
-            ->sharpen(config('blog.image_thumb_settings.sharpen'));
+            ->width(config('cms.image_thumb_settings.width'))
+            ->height(config('cms.image_thumb_settings.height'))
+            ->sharpen(config('cms.image_thumb_settings.sharpen'));
     }
 
-    public function registerMediaCollections() : void
+    public function registerMediaCollections(): void
     {
-        $this->addMediaCollection(config('blog.image_collection'))->singleFile();
+        $this->addMediaCollection(config('cms.image_collection'))->singleFile();
         // you can define as many collections as needed
         // $this->addMediaCollection('my-other-collection')
         //add options
@@ -95,7 +81,15 @@ class Page extends Model implements HasMedia
      */
     public function menus(): BelongsToMany
     {
-        return $this->belongsToMany(Menu::class, 'menu_page', 'page_id', 'menu_id');
+        return $this->belongsToMany(static::getModelClassName(Resources::MENU), 'menu_page', 'page_id', 'menu_id');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(static::getModelClassName(Resources::AUTHOR), 'author_id');
     }
 
 }

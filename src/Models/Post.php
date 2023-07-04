@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use SoipoServices\Cms\Traits\MetaTagable;
+use SoipoServices\Cms\Constants\Resources;
+use SoipoServices\Cms\Traits\GetClass;
 use SoipoServices\Cms\Traits\Publishable;
 use SoipoServices\Cms\Traits\Sluggable;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,14 +19,14 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, MetaTagable, Sluggable, Publishable;
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass;
 
     /**
      * Fillable properties.
      * @var array<string>
      */
     protected $fillable = [
-        'user_id',
+        'author_id',
         'category_id',
         'title',
         'summary',
@@ -47,18 +48,7 @@ class Post extends Model implements HasMedia
      */
     protected $casts = [
         'featured' => 'boolean',
-        'scheduled_for' => 'datetime:Y-m-d H:i:s',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     * @var array
-     */
-    protected $dates = [
-        'scheduled_for',
-        'deleted_at',
-        'created_at',
-        'updated_at',
+        'scheduled_for' => 'datetime',
     ];
 
     /**
@@ -71,25 +61,32 @@ class Post extends Model implements HasMedia
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(static::getModelClassName(Resources::CATEGORY));
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(static::getModelClassName(Resources::AUTHOR), 'author_id');
+    }
 
     public function registerMediaConversions(Media $media = null) : void
     {
         $this->addMediaConversion('thumb')
-            ->width(config('blog.image_thumb_settings.width'))
-            ->height(config('blog.image_thumb_settings.height'))
-            ->sharpen(config('blog.image_thumb_settings.sharpen'));
+            ->width(config('cms.image_thumb_settings.width'))
+            ->height(config('cms.image_thumb_settings.height'))
+            ->sharpen(config('cms.image_thumb_settings.sharpen'));
     }
 
     public function registerMediaCollections() : void
     {
-        $this->addMediaCollection(config('blog.image_collection'))->singleFile();
+        $this->addMediaCollection(config('cms.image_collection'))->singleFile();
     }
 
     public function ScopePublished(Builder $builder)
