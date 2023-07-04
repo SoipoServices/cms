@@ -2,11 +2,16 @@
 
 namespace SoipoServices\Cms\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use SoipoServices\Cms\Constants\Resources;
+use SoipoServices\Cms\Traits\GetClass;
 
 class Menu extends Model
 {
+    use HasFactory, GetClass;
+
     /**
      * Fillable properties.
      * @var array<string>
@@ -39,7 +44,7 @@ class Menu extends Model
      */
     public function pages(): BelongsToMany
     {
-        return $this->belongsToMany(Page::class, 'menu_page', 'menu_id', 'page_id');
+        return $this->belongsToMany(static::getModelClassName(Resources::PAGE), 'menu_page', 'menu_id', 'page_id');
     }
 
 

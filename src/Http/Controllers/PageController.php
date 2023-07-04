@@ -2,50 +2,76 @@
 
 namespace SoipoServices\Cms\Http\Controllers;
 
-use SoipoServices\Cms\Models\Page;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use SoipoServices\Cms\Constants\Resources;
 use Illuminate\Http\Request;
 
 
 class PageController extends Controller
 {
-    public function home(Request $request)
+    /**
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    public function home(Request $request): Application|Factory|View
     {
-        return view('pages.home');
+        return view('cms::pages.home');
     }
 
-    public function about()
+    /**
+     * @return Application|Factory|View
+     */
+    public function about(): Application|Factory|View
     {
-        return view('pages.about');
+        return view('cms::pages.about');
     }
 
-    public function contact()
+    /**
+     * @return Application|Factory|View
+     */
+    public function contact(): Application|Factory|View
     {
-        return view('pages.contact');
+        return view('cms::pages.contact');
     }
 
-    public function show(Request $request, $slug)
+    /**
+     * @param Request $request
+     * @param $slug
+     * @return Application|Factory|View
+     * @throws \Exception
+     */
+    public function show(Request $request, $slug): Application|Factory|View
     {
         $page = cache()->remember("cms.".$slug, now()->addMinutes(10), function () use($slug) {
-            return Page::where('slug', $slug)->published()->firstOrFail();
+            return static::getModelClassName(Resources::PAGE)::where('slug', $slug)->published()->firstOrFail();
         });
 
-        $metaTags = $page->metaTags;
-
-        return view('pages.show',compact(['page','metaTags']));
+        return view('cms::pages.show',compact(['page']));
     }
 
-    public function preview(Request $request, $slug)
+    /**
+     * @param Request $request
+     * @param $slug
+     * @return Application|Factory|View|null
+     */
+    public function preview(Request $request, $slug): View|Factory|Application|null
     {
         if (auth()->user()) {
-            $page =  Page::where('slug', $slug)->firstOrFail();
-            return view('pages.show',compact('page'));
+            $page = static::getModelClassName(Resources::PAGE)::where('slug', $slug)->firstOrFail();
+            return view('cms::pages.show',compact('page'));
         }
+
         abort(403);
     }
 
-    public function search(Request $request)
+    /**
+     * @param Request $request
+     * @return View|Factory|Application
+     */
+    public function search(Request $request): View|Factory|Application
     {
-        return view('pages.search');
+        return view('cms::pages.search');
     }
-
 }

@@ -14,6 +14,7 @@
 use Illuminate\Support\Facades\Route;
 use SoipoServices\Cms\Http\Controllers\PageController;
 use SoipoServices\Cms\Http\Controllers\BlogController;
+
 Route::get('/', [PageController::class, 'home'])->name('pages.home');
 Route::get('/search', [PageController::class, 'search'])->name('pages.search');
 Route::get('/about-us', [PageController::class, 'about'])->name('pages.about');
