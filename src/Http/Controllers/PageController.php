@@ -18,7 +18,7 @@ class PageController extends Controller
     {
         $page = static::getModelClassName(Resources::PAGE)::where('is_home', true)->first();
 
-        return view("cms::$page->title", compact('page'));
+        return view("cms::home", compact('page'));
     }
 
     /**
