@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\View;
 use SoipoServices\Cms\Constants\Resources;
 use Illuminate\Http\Request;
 
-
 class PageController extends Controller
 {
     /**
@@ -17,7 +16,9 @@ class PageController extends Controller
      */
     public function home(Request $request): Application|Factory|View
     {
-        return view('cms::pages.home');
+        $page = static::getModelClassName(Resources::PAGE)::where('is_home', true)->first();
+
+        return view("cms::$page->title", compact('page'));
     }
 
     /**
