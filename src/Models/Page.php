@@ -32,7 +32,8 @@ class Page extends Model implements HasMedia
         'summary',
         'body',
         'scheduled_for',
-        'slug'
+        'slug',
+        'is_home'
     ];
 
     /**

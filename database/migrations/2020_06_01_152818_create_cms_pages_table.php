@@ -19,6 +19,7 @@ class CreatePagesTable extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->text('summary')->nullable();
+            $table->boolean('is_home');
             $table->text('body');
             $table->boolean('published')->default(false);
             $table->timestamp('scheduled_for')->useCurrent();
