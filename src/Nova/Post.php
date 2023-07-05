@@ -18,6 +18,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use SoipoServices\Cms\Traits\GetClass;
+use Spatie\TagsField\Tags;
 
 class Post extends Resource
 {
@@ -93,6 +94,8 @@ class Post extends Resource
             Boolean::make(__('Published'), function () {
                 return $this->published;
             })->exceptOnForms(),
+
+            Tags::make(__('Tags'), 'tags')->withLinkToTagResource(),
         ];
     }
 

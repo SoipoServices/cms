@@ -61,6 +61,8 @@ class Page extends Resource
                 ->sortable()
                 ->rules(['required']),
 
+            Boolean::make(__('Is Home'), 'is_home'),
+
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
                     ['title'],
@@ -84,6 +86,8 @@ class Page extends Resource
             Boolean::make(__('Published'), function () {
                 return $this->published;
             })->exceptOnForms(),
+
+            Tags::make(__('Tags'), 'tags')->withLinkToTagResource(),
         ];
     }
 
