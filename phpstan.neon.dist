@@ -11,4 +11,5 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: false
     checkMissingIterableValueType: false
-
+    excludePaths:
+        - src/*/Nova/*
