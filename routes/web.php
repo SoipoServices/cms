@@ -20,6 +20,7 @@ Route::get('/search', [PageController::class, 'search'])->name('pages.search');
 Route::get('/about-us', [PageController::class, 'about'])->name('pages.about');
 Route::get('/contact-us', [PageController::class, 'contact'])->name('pages.contact');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/search', [BlogController::class, 'search'])->name('blog.search');
 Route::get('/blog/{slug}',  [BlogController::class, 'single'])->name('blog.single');
 Route::get('/blog/{year}/{month}/{day}/{slug}',  [BlogController::class, 'date'])->name('blog.date');
 Route::get('/category/{slug}',  [BlogController::class, 'category'])->name('blog.category');

@@ -73,6 +73,13 @@ class PageController extends Controller
      */
     public function search(Request $request): View|Factory|Application
     {
-        return view('cms::pages.search');
+        $key = $request->input('query');
+        $pages = static::getModelClassName(Resources::PAGE)::where('title', 'like', "%$key%")
+                    ->where('summary', 'like', "%$key%")
+                    ->where('body', 'like', "%$key%")
+                    ->orderBy('updated_at', 'desc')
+                    ->paginate(config('cms.paginate'));
+
+        return view('cms::pages.search', compact(['pages', 'key']));
     }
 }
