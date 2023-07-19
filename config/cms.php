@@ -1,6 +1,7 @@
 <?php
 
 use SoipoServices\Cms\Models\Category;
+use SoipoServices\Cms\Models\Link;
 use SoipoServices\Cms\Models\Menu;
 use SoipoServices\Cms\Models\Page;
 use SoipoServices\Cms\Models\Post;
@@ -19,6 +20,7 @@ return [
     'classes' => [
         'model' => [
             'page' => Page::class,
+            'link' => Link::class,
             'post' => Post::class,
             'menu' => Menu::class,
             'category' => Category::class,
@@ -26,6 +28,7 @@ return [
         ],
         'nova' => [
             'page' => \SoipoServices\Cms\Nova\Page::class,
+            'link' => \SoipoServices\Cms\Nova\Link::class,
             'post' => \SoipoServices\Cms\Nova\Post::class,
             'menu' => \SoipoServices\Cms\Nova\Menu::class,
             'category' => \SoipoServices\Cms\Nova\Category::class,
