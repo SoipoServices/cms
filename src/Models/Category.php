@@ -10,10 +10,11 @@ use SoipoServices\Cms\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
-    use Sluggable, Parsable, HasFactory, GetClass;
+    use Sluggable, Parsable, HasFactory, GetClass, HasTranslations;
 
     /**
      * Model fillable fields.
@@ -23,6 +24,25 @@ class Category extends Model
         'name',
         'description',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'json',
+        'description' => 'json'
+    ];
+
+    const TRANSLATABLE = ['name', 'description'];
+
+    public array $translatable = self::TRANSLATABLE;
+
+    public static function boot()
+    {
+        parent::boot();
+    }
 
     /**
      * @return HasMany

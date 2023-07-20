@@ -54,16 +54,13 @@ class Menu extends Resource
                 ->creationRules(['unique:Menus,name'])
                 ->updateRules(['unique:Menus,name,{{resourceId}}']),
 
-            Text::make(__('Slug'), 'slug')
-                ->dependsOn(
-                    ['name'],
-                    function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
-                            $field->value = Str::slug($formData->name);
-                            $field->help(config('app.url').'/menus/'.$field->value);
-                        }
-                    }
-                )->rules(['required', 'string'])
+            Select::make(__('Slug'), 'slug')
+                ->options([
+                    'main-menu' => __('Main menu'),
+                    'footer-menu-1' => __('Footer menu 1'),
+                    'footer-menu-2' => __('Footer menu 2')
+
+                ])->rules(['required', 'string'])
                 ->sortable(),
 
             BelongsToMany::make('Pages', 'pages', static::getNovaClassName(Resources::PAGE)),

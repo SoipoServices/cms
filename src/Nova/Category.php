@@ -50,6 +50,7 @@ class Category extends Resource
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')
                 ->sortable()
+                ->translatable()
                 ->rules(['required']),
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
@@ -62,7 +63,7 @@ class Category extends Resource
                     }
                 )->rules(['required', 'string'])
                 ->sortable(),
-            Markdown::make(__('Description'), 'description'),
+            Markdown::make(__('Description'), 'description')->translatable(),
             HasMany::make(__('Posts'), 'posts', static::getNovaClassName(Resources::POST)),
         ];
     }

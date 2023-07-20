@@ -48,7 +48,15 @@ class Page extends Model implements HasMedia
      */
     protected $casts = [
         'scheduled_for' => 'datetime',
+        'summary' => 'json', 
+        'title' => 'json',
+        'body' => 'json'
     ];
+
+    
+    const TRANSLATABLE = ['summary', 'title', 'body'];
+
+    public array $translatable = self::TRANSLATABLE;
 
     public function registerMediaConversions(Media $media = null): void
     {
