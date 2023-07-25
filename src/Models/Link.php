@@ -21,7 +21,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Link extends Model
 {
-    use SoftDeletes, HasTags, HasTranslations, HasFactory, Sluggable, Publishable, GetClass;
+    use SoftDeletes, HasTags, HasFactory, Publishable, GetClass;
 
     /**
      * Fillable properties.

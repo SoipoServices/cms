@@ -21,9 +21,12 @@ use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Spatie\TagsField\Tags;
 use SoipoServices\Cms\Models\Link as AppLink;
+use SoipoServices\Cms\Traits\GetClass;
 
 class Link extends Resource
 {
+    use GetClass;
+
     /**
      * The model the resource corresponds to.
      *
@@ -59,7 +62,6 @@ class Link extends Resource
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')
                 ->sortable()
-                ->translatable()
                 ->rules(['required', 'string', 'max:255']),
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
