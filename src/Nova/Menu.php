@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -64,6 +65,7 @@ class Menu extends Resource
                 ->sortable(),
 
             BelongsToMany::make('Pages', 'pages', static::getNovaClassName(Resources::PAGE)),
+            BelongsToMany::make('Links', 'links', static::getNovaClassName(Resources::PAGE)),
         ];
     }
 
