@@ -25,19 +25,19 @@ class Category extends Model
         'description',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'name' => 'json',
-        'description' => 'json'
-    ];
+    // /**
+    //  * The attributes that should be cast to native types.
+    //  *
+    //  * @var array
+    //  */
+    // protected $casts = [
+    //     'name' => 'json',
+    //     'description' => 'json'
+    // ];
 
-    const TRANSLATABLE = ['name', 'description'];
+    // const TRANSLATABLE = ['name', 'description'];
 
-    public array $translatable = self::TRANSLATABLE;
+    // public array $translatable = self::TRANSLATABLE;
 
     public static function boot()
     {

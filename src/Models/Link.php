@@ -17,10 +17,11 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
+use Spatie\Translatable\HasTranslations;
 
 class Link extends Model
 {
-    use SoftDeletes, HasTags, HasFactory, Sluggable, Publishable, GetClass;
+    use SoftDeletes, HasTags, HasTranslations, HasFactory, Sluggable, Publishable, GetClass;
 
     /**
      * Fillable properties.
@@ -29,6 +30,18 @@ class Link extends Model
     protected $fillable = [
         'name', 'slug', 'href', 'blank_target', 'type'
     ];
+
+     /**
+     * The attributes that should be cast to native types.
+     * @var array<string>
+     */
+    // protected $casts = [
+    //     'name' => 'json'
+    // ];
+
+    // const TRANSLATABLE = ['name'];
+
+    // public array $translatable = self::TRANSLATABLE;
 
     /**
      * @return BelongsToMany

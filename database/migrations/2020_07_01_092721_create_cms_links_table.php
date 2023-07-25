@@ -19,6 +19,7 @@ class CreateLinksTable extends Migration
             $table->string('slug')->unique();
             $table->string('href');
             $table->string('type');
+            $table->boolean('blank_target');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -7,6 +7,7 @@ use SoipoServices\Cms\Models\Page as AppPage;
 use SoipoServices\Cms\Nova\Actions\PreviewAction;
 use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -58,13 +59,15 @@ class Link extends Resource
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')
                 ->sortable()
+                ->translatable()
                 ->rules(['required', 'string', 'max:255']),
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
                     ['name'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
+                        // Log::info($formData->name[app()->getLocale()]);
                         if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
-                            $field->value = Str::slug($formData->name);
+                            $field->value = is_null($formData->name) ? '':Str::slug($formData->name);
                             $field->help(config('app.url').'/links/'.$field->value);
                         }
                     }
