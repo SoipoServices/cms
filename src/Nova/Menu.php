@@ -65,7 +65,7 @@ class Menu extends Resource
                 ->sortable(),
 
             BelongsToMany::make('Pages', 'pages', static::getNovaClassName(Resources::PAGE)),
-            BelongsToMany::make('Links', 'links', static::getNovaClassName(Resources::PAGE)),
+            BelongsToMany::make('Links', 'links', static::getNovaClassName(Resources::LINK)),
         ];
     }
 
