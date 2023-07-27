@@ -28,7 +28,7 @@ class Link extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'name', 'slug', 'href', 'blank_target', 'type'
+        'name', 'slug', 'href', 'blank_target'
     ];
 
      /**

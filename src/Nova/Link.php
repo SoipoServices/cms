@@ -75,12 +75,8 @@ class Link extends Resource
                     }
                 )->rules(['required', 'string'])
                 ->sortable(),
-            Select::make(__('Type'), 'type')->options([
-                __('External') => 'external',
-                __('Internal') => 'internal'
-            ])->rules(['required']),
             Boolean::make(__('Open in a new window'), 'blank_target')
-                ->help(__('Opens the linked document in a new window when selected')),
+                ->help(__('Opens the linked document in a new window when selected'))->nullable(),
             Text::make(__('Href'), 'href')->rules(['required', 'string'])
         ];
     }

@@ -18,8 +18,7 @@ class CreateLinksTable extends Migration
             $table->json('name');
             $table->string('slug')->unique();
             $table->string('href');
-            $table->string('type');
-            $table->boolean('blank_target');
+            $table->boolean('blank_target')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
