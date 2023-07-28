@@ -46,7 +46,11 @@ class Menu extends Model
     {
         return $this->belongsToMany(static::getModelClassName(Resources::PAGE), 'menu_page', 'menu_id', 'page_id');
     }
-
+    
+    public function links(): BelongsToMany
+    {
+        return $this->belongsToMany(static::getModelClassName(Resources::LINK), 'menu_link', 'menu_id', 'link_id');
+    }
 
      /**
      * TaggedCount mutator.

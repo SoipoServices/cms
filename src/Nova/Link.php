@@ -3,24 +3,36 @@
 namespace SoipoServices\Cms\Nova;
 
 use SoipoServices\Cms\Constants\Resources;
-use SoipoServices\Cms\Models\Category as AppCategory;
+use SoipoServices\Cms\Models\Page as AppPage;
+use SoipoServices\Cms\Nova\Actions\PreviewAction;
+use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\TagsField\Tags;
+use SoipoServices\Cms\Models\Link as AppLink;
+use SoipoServices\Cms\Traits\GetClass;
 
-class Category extends Resource
+class Link extends Resource
 {
+    use GetClass;
+
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = AppCategory::class;
+    public static $model = AppLink::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -50,21 +62,22 @@ class Category extends Resource
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')
                 ->sortable()
-                ->translatable()
-                ->rules(['required']),
+                ->rules(['required', 'string', 'max:255']),
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
                     ['name'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
+                        // Log::info($formData->name[app()->getLocale()]);
                         if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
-                            $field->value = Str::slug($formData->name);
-                            $field->help(config('app.url').'/categories/'.$field->value);
+                            $field->value = is_null($formData->name) ? '':Str::slug($formData->name);
+                            $field->help(config('app.url').'/links/'.$field->value);
                         }
                     }
                 )->rules(['required', 'string'])
                 ->sortable(),
-            Markdown::make(__('Description'), 'description')->translatable(),
-            HasMany::make(__('Posts'), 'posts', static::getNovaClassName(Resources::POST)),
+            Boolean::make(__('Open in a new window'), 'blank_target')
+                ->help(__('Opens the linked document in a new window when selected'))->nullable(),
+            Text::make(__('Href'), 'href')->rules(['required', 'string'])
         ];
     }
 
@@ -76,7 +89,8 @@ class Category extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+        ];
     }
 
     /**
@@ -109,7 +123,9 @@ class Category extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            //
+        ];
     }
 
     /**
@@ -129,6 +145,6 @@ class Category extends Resource
      */
     public static function label()
     {
-        return __('Categories');
+        return __('Links');
     }
 }

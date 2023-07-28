@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagesTable extends Migration
+class CreateLinksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('author_id')->index();
-            $table->json('title');
+            $table->json('name');
             $table->string('slug')->unique();
-            $table->json('summary')->nullable();
-            $table->boolean('is_home');
-            $table->json('body');
-            $table->boolean('published')->default(false);
-            $table->timestamp('scheduled_for')->useCurrent();
+            $table->string('href');
+            $table->boolean('blank_target')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -35,6 +31,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('links');
     }
 }

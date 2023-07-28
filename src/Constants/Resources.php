@@ -13,4 +13,6 @@ class Resources
     const MENU = 'menu';
 
     const AUTHOR = 'author';
+
+    const LINK = 'link';
 }
