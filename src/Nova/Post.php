@@ -88,7 +88,7 @@ class Post extends Resource
 
             BelongsTo::make(__('Author'), 'author', static::getNovaClassName(Resources::AUTHOR)),
 
-            DateTime::make(__('Scheduled For'), 'scheduled_for')
+            DateTime::make(__('Scheduled For'), 'scheduled_at')
                 ->rules('required'),
 
             Boolean::make(__('Published'), function () {

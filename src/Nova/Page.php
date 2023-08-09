@@ -81,7 +81,7 @@ class Page extends Resource
 
             Trix::make(__('Body'), 'body')->withFiles('media')->rules(['required', 'string']),
 
-            DateTime::make(__('Scheduled For'), 'scheduled_for'),
+            DateTime::make(__('Scheduled For'), 'scheduled_at'),
 
             Boolean::make(__('Published'), function () {
                 return $this->published;
