@@ -31,7 +31,7 @@ class Post extends Model implements HasMedia
         'title',
         'summary',
         'body',
-        'scheduled_for',
+        'scheduled_at',
         'featured',
         'slug'
     ];
@@ -48,7 +48,7 @@ class Post extends Model implements HasMedia
      */
     protected $casts = [
         'featured' => 'boolean',
-        'scheduled_for' => 'datetime',
+        'scheduled_at' => 'datetime',
     ];
 
     /**
@@ -57,7 +57,7 @@ class Post extends Model implements HasMedia
      */
     public function getPublishedAttribute()
     {
-        return now() >  $this->attributes["scheduled_for"];
+        return now() >  $this->attributes["scheduled_at"];
     }
 
     /**
@@ -91,7 +91,7 @@ class Post extends Model implements HasMedia
 
     public function ScopePublished(Builder $builder)
     {
-        $builder->whereDate('scheduled_for', '<=', Carbon::today()->toDateString())->with(['tags','category']);
+        $builder->whereDate('scheduled_at', '<=', Carbon::today()->toDateString())->with(['tags','category']);
     }
 
     public function ScopeOrderByFeatured(Builder $builder)

@@ -13,6 +13,6 @@ trait Publishable
      */
     public function getPublishedAttribute()
     {
-        return Carbon::now() > $this->attributes["scheduled_for"];
+        return Carbon::now() > $this->attributes["scheduled_at"];
     }
 }
