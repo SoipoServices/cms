@@ -31,7 +31,7 @@ class Page extends Model implements HasMedia
         'title',
         'summary',
         'body',
-        'scheduled_for',
+        'scheduled_at',
         'slug',
         'is_home'
     ];
@@ -47,7 +47,7 @@ class Page extends Model implements HasMedia
      * @var array<string>
      */
     protected $casts = [
-        'scheduled_for' => 'datetime',
+        'scheduled_at' => 'datetime',
         // 'summary' => 'json', 
         // 'title' => 'json',
         // 'body' => 'json'
@@ -77,7 +77,7 @@ class Page extends Model implements HasMedia
 
     public function ScopePublished(Builder $builder)
     {
-        $builder->whereDate('scheduled_for', '<=', Carbon::today()->toDateString());
+        $builder->whereDate('scheduled_at', '<=', Carbon::today()->toDateString());
     }
 
     public function ScopeOrderByFeatured(Builder $builder)
