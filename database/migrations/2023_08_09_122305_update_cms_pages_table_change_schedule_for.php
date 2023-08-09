@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateCmsPostsTableChangeScheduleFor extends Migration
+class UpdateCmsPagesTableChangeScheduleFor extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class UpdateCmsPostsTableChangeScheduleFor extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->timestamp('scheduled_at')->useCurrent()->nullable()->after('featured');
+
+        Schema::table('pages', function (Blueprint $table) {
+            $table->timestamp('scheduled_at')->useCurrent()->nullable()->after('published');
             $table->dropColumn('schedule_for');
         });
     }
@@ -26,8 +27,8 @@ class UpdateCmsPostsTableChangeScheduleFor extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->timestamp('scheduled_for')->after('featured')->useCurrent();
+        Schema::table('pages', function (Blueprint $table) {
+            $table->timestamp('scheduled_for')->useCurrent()->after('published');
             $table->dropColumn('schedule_at');
         });
     }
