@@ -5,7 +5,7 @@ namespace SoipoServices\Cms\Nova;
 use SoipoServices\Cms\Constants\Resources;
 use SoipoServices\Cms\Models\Post as AppPost;
 use SoipoServices\Cms\Nova\Metrics\PostsTrend;
-use Ebess\AdvancedNovaMediaLibrary\Fields\Files;
+use Laravel\Nova\Fields\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
@@ -58,7 +58,7 @@ class Post extends Resource
         return [
             ID::make()->sortable(),
 
-            Files::make('Featured image', 'featured')->enableExistingMedia(),
+            Image::make('Featured image', 'featured')->enableExistingMedia(),
 
             Text::make(__('Title'), 'title')
                 ->sortable()
