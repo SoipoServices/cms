@@ -24,10 +24,8 @@ class BlogController extends Controller
         });
 
         $latest_posts = $posts->take(config('cms.take'));
-        $categories = $this->getCategories();
-        $pages = $this->getPages();
 
-        return view('cms::blog.index', compact(['posts', 'latest_posts', 'categories', 'pages']));
+        return view('cms::blog.index', compact(['posts', 'latest_posts']));
     }
 
     /**
@@ -38,14 +36,11 @@ class BlogController extends Controller
      */
     public function single(string $slug, Request $request): View|Factory|Application
     {
-        $latest_posts = $this->getLatestPosts();
-        $categories = $this->getCategories();
-
         $post = cache()->remember($slug, now()->addMinutes(10), function () use ($slug) {
             return static::getModelClassName(Resources::POST)::where('slug', $slug)->published()->firstOrFail();
         });
 
-        return view('cms::blog.single', compact(['post', 'latest_posts', 'categories']));
+        return view('cms::blog.single', compact(['post']));
     }
 
     /**
@@ -75,9 +70,6 @@ class BlogController extends Controller
      */
     public function category(string $slug, Request $request): View|Factory|Application
     {
-        $latest_posts = $this->getLatestPosts();
-        $categories = $this->getCategories();
-
         $posts = cache()->remember('cms.posts.category.'.$slug.'.page'.$request->get('page'), now()->addMinutes(config('cms.cache_minutes')), function () use($slug) {
             return  static::getModelClassName(Resources::POST)::published()->orderBy('scheduled_at', 'desc')->whereHas('category', function ($q) use ($slug) {
                 $q->where('slug', $slug);
@@ -90,7 +82,7 @@ class BlogController extends Controller
             $category = static::getModelClassName(Resources::CATEGORY)::where('slug',$slug)->firstOrFail();
         }
 
-        return view('cms::blog.category', compact(['category', 'posts', 'latest_posts', 'categories']));
+        return view('cms::blog.category', compact(['category', 'posts']));
     }
 
     /**
