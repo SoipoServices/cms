@@ -34,6 +34,7 @@ class Post extends Model implements HasMedia
         'scheduled_at',
         'featured',
         'slug',
+        'featured_image'
     ];
 
     /**

@@ -58,7 +58,7 @@ class Post extends Resource
         return [
             ID::make()->sortable(),
 
-            Image::make('Featured image', 'featured'),
+            Image::make('Featured image', 'featured_image'),
 
             Text::make(__('Title'), 'title')
                 ->sortable()
