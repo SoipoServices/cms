@@ -33,7 +33,7 @@ class Post extends Model implements HasMedia
         'body',
         'scheduled_at',
         'featured',
-        'slug'
+        'slug',
     ];
 
     /**

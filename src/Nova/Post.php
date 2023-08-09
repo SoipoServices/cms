@@ -58,7 +58,7 @@ class Post extends Resource
         return [
             ID::make()->sortable(),
 
-            Image::make('Featured image', 'featured')->enableExistingMedia(),
+            Image::make('Featured image', 'featured'),
 
             Text::make(__('Title'), 'title')
                 ->sortable()
@@ -90,10 +90,6 @@ class Post extends Resource
 
             DateTime::make(__('Scheduled For'), 'scheduled_at')
                 ->rules('nullable'),
-
-            Boolean::make(__('Published'), function () {
-                return $this->published;
-            })->exceptOnForms(),
 
             Tags::make(__('Tags'), 'tags')->withLinkToTagResource(),
         ];

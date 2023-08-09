@@ -21,7 +21,6 @@ class CreatePostsTable extends Migration
             $table->string('slug')->unique();
             $table->json('summary')->nullable();
             $table->json('body');
-            $table->boolean('published')->default(false);
             $table->boolean('featured')->default(false);
             $table->timestamp('scheduled_for')->useCurrent();
             $table->softDeletes();
