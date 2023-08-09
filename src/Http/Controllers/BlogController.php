@@ -12,33 +12,6 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    private function getCategories()
-    {
-        $categories = cache()->remember('cms.categories', now()->addMinutes(10), function () {
-            return static::getModelClassName(Resources::CATEGORY)::take(config('cms.take'))->paginate(config('cms.paginate'));
-        });
-
-        return $categories;
-    }
-
-    private function getLatestPosts()
-    {
-        $latest_posts = cache()->remember('cms.posts.latest_posts', now()->addMinutes(10), function () {
-            return static::getModelClassName(Resources::POST)::take(config('cms.take'))->orderBy('scheduled_for', 'desc')->paginate(config('cms.paginate'));
-        });
-
-        return $latest_posts;
-    }
-     
-    private function getPages()
-    {
-        $pages = cache()->remember('cms.pages', now()->addMinutes(10), function () {
-            return static::getModelClassName(Resources::PAGE)::take(config('cms.take'))->paginate(config('cms.paginate'));
-        });
-
-        return $pages;
-    }
-
     /**
      * @param Request $request
      * @return Factory|View|Application
@@ -47,7 +20,7 @@ class BlogController extends Controller
     public function index(Request $request): View|Factory|Application
     {
         $posts = cache()->remember('cms.posts.page'.$request->get('page'), now()->addMinutes(config('cms.cache_minutes')), function () {
-            return static::getModelClassName(Resources::POST)::with(Resources::CATEGORY)->published()->orderBy('scheduled_for', 'desc')->paginate(config('cms.paginate'));
+            return static::getModelClassName(Resources::POST)::with(Resources::CATEGORY)->published()->orderBy('scheduled_at', 'desc')->paginate(config('cms.paginate'));
         });
 
         $latest_posts = $posts->take(config('cms.take'));
@@ -106,7 +79,7 @@ class BlogController extends Controller
         $categories = $this->getCategories();
 
         $posts = cache()->remember('cms.posts.category.'.$slug.'.page'.$request->get('page'), now()->addMinutes(config('cms.cache_minutes')), function () use($slug) {
-            return  static::getModelClassName(Resources::POST)::published()->orderBy('scheduled_for', 'desc')->whereHas('category', function ($q) use ($slug) {
+            return  static::getModelClassName(Resources::POST)::published()->orderBy('scheduled_at', 'desc')->whereHas('category', function ($q) use ($slug) {
                 $q->where('slug', $slug);
             })->paginate(config('cms.paginate'));
         });
@@ -127,7 +100,7 @@ class BlogController extends Controller
     public function search(Request $request): View|Factory|Application
     {
         $key = $request->input('query');
-        $posts = static::getModelClassName(Resources::POST)::where('title','like', "%$key%")->with(Resources::CATEGORY)->published()->orderBy('scheduled_for', 'desc')->paginate(config('cms.paginate'));
+        $posts = static::getModelClassName(Resources::POST)::where('title','like', "%$key%")->with(Resources::CATEGORY)->published()->orderBy('scheduled_at', 'desc')->paginate(config('cms.paginate'));
         
         return view('cms::pages.search', compact(['posts', 'key']));
     }
