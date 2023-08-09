@@ -89,7 +89,7 @@ class Post extends Resource
             BelongsTo::make(__('Author'), 'author', static::getNovaClassName(Resources::AUTHOR)),
 
             DateTime::make(__('Scheduled For'), 'scheduled_at')
-                ->rules('required'),
+                ->rules('nullable'),
 
             Boolean::make(__('Published'), function () {
                 return $this->published;

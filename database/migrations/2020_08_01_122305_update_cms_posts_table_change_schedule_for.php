@@ -14,7 +14,7 @@ class UpdateCmsPostsTableChangeScheduleFor extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->timestamp('scheduled_at')->useCurrent()->after('featured');
+            $table->timestamp('scheduled_at')->useCurrent()->nullable()->after('featured');
             $table->dropColumn('schedule_for');
         });
     }
