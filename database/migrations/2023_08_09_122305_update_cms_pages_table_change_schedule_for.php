@@ -16,7 +16,7 @@ class UpdateCmsPagesTableChangeScheduleFor extends Migration
 
         Schema::table('pages', function (Blueprint $table) {
             $table->timestamp('scheduled_at')->useCurrent()->nullable()->after('published');
-            $table->dropColumn('schedule_for');
+            $table->dropColumn('scheduled_for');
         });
     }
 
@@ -29,7 +29,7 @@ class UpdateCmsPagesTableChangeScheduleFor extends Migration
     {
         Schema::table('pages', function (Blueprint $table) {
             $table->timestamp('scheduled_for')->useCurrent()->after('published');
-            $table->dropColumn('schedule_at');
+            $table->dropColumn('scheduled_at');
         });
     }
 }
