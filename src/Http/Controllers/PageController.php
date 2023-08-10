@@ -46,11 +46,10 @@ class PageController extends Controller
      */
     public function show(Request $request, $slug): Application|Factory|View
     {
-        $page = cache()->remember("cms.".$slug, now()->addMinutes(10), function () use($slug) {
+        $page = cache()->remember("cms.".$slug, now()->addMinutes(10), function () use ($slug) {
             return static::getModelClassName(Resources::PAGE)::where('slug', $slug)->published()->firstOrFail();
         });
-        dd(DomainHelper::getDomain()->description);
-dd($page->title);
+
         return view('cms::pages.show',compact(['page']));
     }
 
