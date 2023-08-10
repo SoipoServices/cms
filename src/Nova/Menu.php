@@ -64,8 +64,8 @@ class Menu extends Resource
                 ])->rules(['required', 'string'])
                 ->sortable(),
 
-            BelongsToMany::make('Pages', 'pages', static::getNovaClassName(Resources::PAGE)),
-            BelongsToMany::make('Links', 'links', static::getNovaClassName(Resources::LINK)),
+            BelongsToMany::make(__('Pages'), 'pages', static::getNovaClassName(Resources::PAGE)),
+            BelongsToMany::make(__('Links'), 'links', static::getNovaClassName(Resources::LINK)),
         ];
     }
 

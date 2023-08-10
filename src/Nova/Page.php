@@ -59,16 +59,19 @@ class Page extends Resource
 
             Text::make(__('Title'), 'title')
                 ->sortable()
+                ->translatable()
                 ->rules(['required']),
 
+            Text::make(__('Key to url path'), 'name'),
+            
             Boolean::make(__('Is Home'), 'is_home'),
 
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
-                    ['title'],
+                    ['name'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->title != optional($request->resource()::find($request->resourceId))->title) {
-                            $field->value = Str::slug($formData->title);
+                        if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
+                            $field->value = Str::slug($formData->name);
                             $field->help(route('pages.preview', ['slug' => $field->value]));
                         }
                     }
@@ -77,9 +80,9 @@ class Page extends Resource
 
             BelongsTo::make(__('Author'), 'author', static::getNovaClassName(Resources::AUTHOR)),
 
-            Textarea::make(__('Summary'), 'summary')->hideFromIndex(),
+            Textarea::make(__('Summary'), 'summary')->hideFromIndex()->translatable(),
 
-            Trix::make(__('Body'), 'body')->withFiles('media')->rules(['required', 'string']),
+            Trix::make(__('Body'), 'body')->withFiles('media')->rules(['required', 'string'])->translatable(),
 
             DateTime::make(__('Scheduled For'), 'scheduled_at')->rules('nullable'),
 

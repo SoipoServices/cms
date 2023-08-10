@@ -2,6 +2,7 @@
 
 namespace SoipoServices\Cms\Http\Controllers;
 
+use App\Helpers\DomainHelper;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -45,7 +46,7 @@ class PageController extends Controller
      */
     public function show(Request $request, $slug): Application|Factory|View
     {
-        $page = cache()->remember("cms.".$slug, now()->addMinutes(10), function () use($slug) {
+        $page = cache()->remember("cms.".$slug, now()->addMinutes(10), function () use ($slug) {
             return static::getModelClassName(Resources::PAGE)::where('slug', $slug)->published()->firstOrFail();
         });
 
