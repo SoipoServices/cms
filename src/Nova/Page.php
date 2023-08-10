@@ -62,16 +62,16 @@ class Page extends Resource
                 ->translatable()
                 ->rules(['required']),
 
-            Text::make(__('Key to url path'), 'url_key'),
+            Text::make(__('Key to url path'), 'name'),
             
             Boolean::make(__('Is Home'), 'is_home'),
 
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
-                    ['url_key'],
+                    ['name'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->url_key != optional($request->resource()::find($request->resourceId))->url_key) {
-                            $field->value = Str::slug($formData->url_key);
+                        if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
+                            $field->value = Str::slug($formData->name);
                             $field->help(route('pages.preview', ['slug' => $field->value]));
                         }
                     }

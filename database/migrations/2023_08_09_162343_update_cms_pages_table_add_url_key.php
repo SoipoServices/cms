@@ -15,7 +15,7 @@ class UpdateCmsPagesTableAddUrlKey extends Migration
     {
 
         Schema::table('pages', function (Blueprint $table) {
-            $table->text('url_key')->after('title');
+            $table->text('name')->after('title');
         });
     }
 
@@ -27,7 +27,7 @@ class UpdateCmsPagesTableAddUrlKey extends Migration
     public function down()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn('url_key');
+            $table->dropColumn('name');
         });
     }
 }

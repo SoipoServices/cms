@@ -32,7 +32,7 @@ class Page extends Model implements HasMedia
     protected $fillable = [
         'author_id',
         'title',
-        'url_key',
+        'name',
         'summary',
         'body',
         'scheduled_at',
