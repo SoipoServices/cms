@@ -17,10 +17,13 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
+use Spatie\Translatable\HasTranslations;
 
 class Page extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass;
+    const TRANSLATABLE = ['summary', 'title', 'body'];
+   
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass, HasTranslations;
 
     /**
      * Fillable properties.
@@ -29,12 +32,15 @@ class Page extends Model implements HasMedia
     protected $fillable = [
         'author_id',
         'title',
+        'url_key',
         'summary',
         'body',
         'scheduled_at',
         'slug',
         'is_home'
     ];
+    
+    public array $translatable = self::TRANSLATABLE;
 
     /**
      * Appended fields.
@@ -48,16 +54,10 @@ class Page extends Model implements HasMedia
      */
     protected $casts = [
         'scheduled_at' => 'datetime',
-        // 'summary' => 'json', 
-        // 'title' => 'json',
-        // 'body' => 'json'
+        'summary' => 'json', 
+        'title' => 'json',
+        'body' => 'json'
     ];
-
-    
-    // const TRANSLATABLE = ['summary', 'title', 'body'];
-
-    // public array $translatable = self::TRANSLATABLE;
-
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
