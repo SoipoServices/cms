@@ -14,6 +14,8 @@ use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
+    const TRANSLATABLE = ['name', 'description'];
+
     use Sluggable, Parsable, HasFactory, GetClass, HasTranslations;
 
     /**
@@ -21,23 +23,24 @@ class Category extends Model
      * @var array<string>
      */
     protected $fillable = [
+        'url_key',
         'name',
         'description',
     ];
+    public array $translatable = self::TRANSLATABLE;
 
-    // /**
-    //  * The attributes that should be cast to native types.
-    //  *
-    //  * @var array
-    //  */
-    // protected $casts = [
-    //     'name' => 'json',
-    //     'description' => 'json'
-    // ];
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'name' => 'json',
+        'url_key' => 'string',
+        'description' => 'json'
+    ];
 
-    // const TRANSLATABLE = ['name', 'description'];
 
-    // public array $translatable = self::TRANSLATABLE;
 
     public static function boot()
     {

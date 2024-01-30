@@ -48,16 +48,20 @@ class Category extends Resource
     {
         return [
             ID::make()->sortable(),
+
             Text::make(__('Name'), 'name')
                 ->sortable()
                 ->translatable()
                 ->rules(['required']),
+            
+            Text::make(__('Key to url path'), 'url_key'),
+
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
-                    ['name'],
+                    ['url_key'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
-                            $field->value = Str::slug($formData->name);
+                        if ($formData->url_key != optional($request->resource()::find($request->resourceId))->name) {
+                            $field->value = Str::slug($formData->url_key);
                             $field->help(config('app.url').'/categories/'.$field->value);
                         }
                     }

@@ -62,14 +62,17 @@ class Link extends Resource
             ID::make()->sortable(),
             Text::make(__('Name'), 'name')
                 ->sortable()
+                ->translatable()
                 ->rules(['required', 'string', 'max:255']),
+            
+            Text::make(__('Key to url path'), 'url_key'),
+            
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
                     ['name'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
-                        // Log::info($formData->name[app()->getLocale()]);
-                        if ($formData->name != optional($request->resource()::find($request->resourceId))->name) {
-                            $field->value = is_null($formData->name) ? '':Str::slug($formData->name);
+                        if ($formData->url_key != optional($request->resource()::find($request->resourceId))->name) {
+                            $field->value = is_null($formData->url_key) ? '':Str::slug($formData->url_key);
                             $field->help(config('app.url').'/links/'.$field->value);
                         }
                     }

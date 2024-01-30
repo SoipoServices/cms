@@ -21,27 +21,28 @@ use Spatie\Translatable\HasTranslations;
 
 class Link extends Model
 {
-    use SoftDeletes, HasTags, HasFactory, Publishable, GetClass;
+    const TRANSLATABLE = ['name'];
+
+    use SoftDeletes, HasTags, HasFactory, Publishable, GetClass, HasTranslations;
 
     /**
      * Fillable properties.
      * @var array<string>
      */
     protected $fillable = [
-        'name', 'slug', 'href', 'blank_target'
+        'name', 'slug', 'href', 'blank_target', 'url_key'
     ];
+
+    public array $translatable = self::TRANSLATABLE;
 
      /**
      * The attributes that should be cast to native types.
      * @var array<string>
      */
-    // protected $casts = [
-    //     'name' => 'json'
-    // ];
-
-    // const TRANSLATABLE = ['name'];
-
-    // public array $translatable = self::TRANSLATABLE;
+    protected $casts = [
+        'url_key' => 'string',
+        'name' => 'json'
+    ];
 
     /**
      * @return BelongsToMany
