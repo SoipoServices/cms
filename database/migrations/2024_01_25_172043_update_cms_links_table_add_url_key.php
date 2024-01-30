@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMenusTable extends Migration
+class UpdateCmsLinksTableAddUrlKey extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->increments('id');
-            $table->json('name');
-            $table->string('slug');
-            $table->softDeletes();
-            $table->timestamps();
+
+        Schema::table('links', function (Blueprint $table) {
+            $table->text('url_key')->after('name');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::table('links', function (Blueprint $table) {
+            $table->dropColumn('url_key');
+        });
     }
 }

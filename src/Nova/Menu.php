@@ -53,7 +53,8 @@ class Menu extends Resource
                 ->sortable()
                 ->rules(['required', 'string', 'max:255'])
                 ->creationRules(['unique:Menus,name'])
-                ->updateRules(['unique:Menus,name,{{resourceId}}']),
+                ->updateRules(['unique:Menus,name,{{resourceId}}'])
+                ->translatable(),
 
             Select::make(__('Slug'), 'slug')
                 ->options([

@@ -16,10 +16,13 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
+use Spatie\Translatable\HasTranslations;
 
 class Post extends Model implements HasMedia
 {
-    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass;
+    const TRANSLATABLE = ['summary', 'title', 'body'];
+
+    use SoftDeletes, InteractsWithMedia, HasTags, HasFactory, Sluggable, Publishable, GetClass, HasTranslations;
 
     /**
      * Fillable properties.
@@ -29,6 +32,7 @@ class Post extends Model implements HasMedia
         'author_id',
         'category_id',
         'title',
+        'url_key',
         'summary',
         'body',
         'scheduled_at',
@@ -36,6 +40,8 @@ class Post extends Model implements HasMedia
         'slug',
         'featured_image'
     ];
+
+    public array $translatable = self::TRANSLATABLE;
 
     /**
      * Appended fields.
@@ -50,6 +56,9 @@ class Post extends Model implements HasMedia
     protected $casts = [
         'featured' => 'boolean',
         'scheduled_at' => 'datetime',
+        'summary' => 'json', 
+        'title' => 'json',
+        'body' => 'json'
     ];
 
     /**

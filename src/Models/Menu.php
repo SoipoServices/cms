@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use SoipoServices\Cms\Constants\Resources;
 use SoipoServices\Cms\Traits\GetClass;
+use Spatie\Translatable\HasTranslations;
 
 class Menu extends Model
 {
-    use HasFactory, GetClass;
+    const TRANSLATABLE = ['name'];
+
+    use HasFactory, GetClass, HasTranslations;
 
     /**
      * Fillable properties.
@@ -21,12 +24,14 @@ class Menu extends Model
         'slug'
     ];
 
+    public array $translatable = self::TRANSLATABLE;
+
     /**
      * The attributes that should be cast to native types.
      * @var array<string>
      */
     protected $casts = [
-        'name' => 'string',
+        'name' => 'json',
         'slug' => 'string',
     ];
 
@@ -38,7 +43,7 @@ class Menu extends Model
         'created_at',
         'updated_at',
     ];
-
+    
     /**
      * @return BelongsToMany
      */

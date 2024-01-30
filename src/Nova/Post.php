@@ -60,25 +60,29 @@ class Post extends Resource
 
             Image::make('Featured image', 'featured_image'),
 
+            
             Text::make(__('Title'), 'title')
                 ->sortable()
+                ->translatable()
                 ->rules(['required']),
+
+            Text::make(__('Key to url path'), 'url_key'),
 
             Text::make(__('Slug'), 'slug')
                 ->dependsOn(
-                    ['title'],
+                    ['url_key'],
                     function (Text $field, NovaRequest $request, FormData $formData) {
-                        if ($formData->title != optional($request->resource()::find($request->resourceId))->title) {
-                            $field->value = Str::slug($formData->title);
+                        if ($formData->url_key != optional($request->resource()::find($request->resourceId))->name) {
+                            $field->value = Str::slug($formData->url_key);
                             $field->help(route('blog.single', ['slug' => $field->value]));
                         }
                     }
                 )->rules(['required', 'string'])
                 ->sortable(),
 
-            Textarea::make(__('Summary'), 'summary')->hideFromIndex(),
+            Textarea::make(__('Summary'), 'summary')->translatable()->hideFromIndex(),
 
-            Trix::make(__('Body'), 'body')->withFiles('media')->rules(['required', 'string']),
+            Trix::make(__('Body'), 'body')->translatable()->withFiles('media')->rules(['required', 'string']),
 
             Boolean::make(__('Featured'), 'featured')->sortable(),
 
